@@ -7,8 +7,8 @@
           label="Filter:"
           class="form-control"
           id="input-3"
-          v-model="form.food"
-          :options="foods"
+          v-model="form.category"
+          :options="categories"
           required
         ></b-form-select>
       </b-form-group>
@@ -194,20 +194,21 @@
 <script>
 import { BRow, BCol, BFormGroup, BFormSelect } from 'bootstrap-vue'
 import RightSidebar from '@/components/RightSidebar.vue'
+import axios from 'axios'
 export default {
   data: function () {
     return {
       form: {
-        food: null
+        category: null
       },
-      foods: [
+      posts: [],
+      categories: [
         { text: 'Filter Post', value: null },
         'Category-1',
         'Category-2',
         'Category-3',
         'Category-4'
-      ],
-      show: true
+      ]
     }
   },
   components: {
@@ -216,6 +217,21 @@ export default {
     BCol,
     BFormGroup,
     BFormSelect
+  },
+  mounted () {
+    this.allPosts()
+  },
+  methods: {
+    allPosts () {
+      axios.get('http://127.0.0.1:8000/api/posts')
+        .then(function (response) {
+          this.posts = response.data
+          console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   }
 }
 </script>

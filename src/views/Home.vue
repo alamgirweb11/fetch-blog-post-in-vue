@@ -40,7 +40,7 @@
               <b-button variant="primary">
                 <router-link
                   class="text-light"
-                  :to="{name: 'postDetails', params: {id:2}}"
+                  :to="{name: 'posDetails', params: {id:post.id}}"
                 >
                   Read More...
                 </router-link>

@@ -12,12 +12,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/post-details/:id?',
-    name: 'postDetails',
+    path: '/post/:id',
+    name: 'posDetails',
     component: PostDetails
   },
   {
-    path: '/about',
+    path: '/about/',
     name: 'about',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route

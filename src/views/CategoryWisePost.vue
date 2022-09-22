@@ -1,21 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="mt-3 mb-2">
-    <b-row class="mb-2">
-      <b-form-group
-        id="input-group-3"
-        label-for="input-3"
-      >
-        <b-form-select
-          id="input-3"
-          v-model="form.category"
-          label="Filter:"
-          class="form-control"
-          :options="categories"
-          required
-        />
-      </b-form-group>
-    </b-row>
     <b-row>
       <b-col cols="9">
         <b-row>
@@ -57,29 +42,17 @@
 </template>
 
 <script>
-import { BRow, BCol, BFormGroup, BFormSelect } from 'bootstrap-vue'
+import { BRow, BCol } from 'bootstrap-vue'
 import RightSidebar from '@/components/RightSidebar.vue'
 export default {
   components: {
     RightSidebar,
     BRow,
-    BCol,
-    BFormGroup,
-    BFormSelect
+    BCol
   },
   data: function () {
     return {
-      form: {
-        category: null
-      },
-      posts: [],
-      categories: [
-        { text: 'Filter Post', value: null },
-        'Category-1',
-        'Category-2',
-        'Category-3',
-        'Category-4'
-      ]
+      posts: []
     }
   },
   mounted () {
@@ -87,10 +60,10 @@ export default {
   },
   methods: {
     allPosts () {
-      const fetchAllPosts = this
-      this.$http.get('http://127.0.0.1:8000/api/posts')
+      const categoryPosts = this
+      this.$http.get(`http://127.0.0.1:8000/api/category/${this.$route.params.slug}`)
         .then(function (response) {
-          fetchAllPosts.posts = response.data
+          categoryPosts.posts = response.data
           console.log(response.data)
         })
         .catch(function (error) {

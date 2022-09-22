@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/Home.vue'
 import PostDetails from '../views/PostDetails.vue'
+import CategoryWisePost from '../views/CategoryWisePost.vue'
 
 Vue.use(VueRouter)
 
@@ -13,8 +14,13 @@ const routes = [
   },
   {
     path: '/post/:id',
-    name: 'posDetails',
+    name: 'postDetailsPage',
     component: PostDetails
+  },
+  {
+    path: '/category/:slug',
+    name: 'categoryPosts',
+    component: CategoryWisePost
   },
   {
     path: '/about/',

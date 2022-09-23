@@ -2,17 +2,13 @@
 <template>
   <div class="mt-3 mb-2">
     <b-row class="mb-2">
-      <b-form-group
-        id="input-group-3"
-        label-for="input-3"
-      >
-        <b-form-select
-          id="input-3"
-          v-model="form.categoryItem"
-          label="Filter:"
+      <b-form-group>
+        <b-form-input
+          v-model="searchInput"
           class="form-control"
-          :options="categoryOptions"
+          placeholder="Search..."
           required
+          @keyup="submitSearchData"
         />
       </b-form-group>
     </b-row>
@@ -33,8 +29,7 @@
               class="mb-2"
             >
               <b-card-text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                {{ post.description.substring(0,80)+"..." }}
               </b-card-text>
 
               <b-button variant="primary">
@@ -82,29 +77,20 @@
 </template>
 
 <script>
-import { BRow, BCol, BFormGroup, BFormSelect } from 'bootstrap-vue'
+import { BRow, BCol, BFormGroup, BFormInput } from 'bootstrap-vue'
 export default {
   components: {
     BRow,
     BCol,
     BFormGroup,
-    BFormSelect
+    BFormInput
   },
   data: function () {
     return {
-      form: {
-        categoryItem: null
-      },
+      searchInput: '',
       posts: [],
       categories: [],
-      manipulatePostData: [],
-      categoryOptions: [
-        { text: 'Filter Post', value: null },
-        'Category-1',
-        'Category-2',
-        'Category-3',
-        'Category-4'
-      ]
+      manipulatePostData: []
     }
   },
   mounted () {
@@ -135,6 +121,9 @@ export default {
     },
     categoryWisePost (categoryId) {
       this.posts = this.manipulatePostData.filter(post => post.category_id === categoryId)
+    },
+    submitSearchData () {
+      this.posts = this.manipulatePostData.filter(post => post.title.toLowerCase().includes(this.searchInput.toLowerCase()))
     }
   }
 }

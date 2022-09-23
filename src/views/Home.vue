@@ -8,10 +8,10 @@
       >
         <b-form-select
           id="input-3"
-          v-model="form.category"
+          v-model="form.categoryItem"
           label="Filter:"
           class="form-control"
-          :options="categories"
+          :options="categoryOptions"
           required
         />
       </b-form-group>
@@ -50,7 +50,29 @@
         </b-row>
       </b-col>
       <b-col cols="3">
-        <RightSidebar />
+        <b-card
+          no-body
+        >
+          <template #header>
+            <h4 class="mb-0">
+              Categories
+            </h4>
+          </template>
+          <b-list-group
+            v-for="(category, index) in categories"
+            :key="index"
+            flush
+          >
+            <b-list-group-item>
+              <b-list-group-item
+                style="cursor: pointer"
+                @click="categoryWisePost (category.id)"
+              >
+                {{ category.name }}
+              </b-list-group-item>
+            </b-list-group-item>
+          </b-list-group>
+        </b-card>
       </b-col>
     </b-row>
   </div>
@@ -58,10 +80,8 @@
 
 <script>
 import { BRow, BCol, BFormGroup, BFormSelect } from 'bootstrap-vue'
-import RightSidebar from '@/components/RightSidebar.vue'
 export default {
   components: {
-    RightSidebar,
     BRow,
     BCol,
     BFormGroup,
@@ -70,10 +90,11 @@ export default {
   data: function () {
     return {
       form: {
-        category: null
+        categoryItem: null
       },
       posts: [],
-      categories: [
+      categories: [],
+      categoryOptions: [
         { text: 'Filter Post', value: null },
         'Category-1',
         'Category-2',
@@ -84,6 +105,7 @@ export default {
   },
   mounted () {
     this.allPosts()
+    this.allCategories()
   },
   methods: {
     allPosts () {
@@ -91,11 +113,23 @@ export default {
       this.$http.get('http://127.0.0.1:8000/api/posts')
         .then(function (response) {
           fetchAllPosts.posts = response.data
-          console.log(response.data)
         })
         .catch(function (error) {
           console.log(error)
         })
+    },
+    allCategories () {
+      const fetchAllCategories = this
+      this.$http.get('http://127.0.0.1:8000/api/categories')
+        .then(function (response) {
+          fetchAllCategories.categories = response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    categoryWisePost (categoryId) {
+      console.log(categoryId)
     }
   }
 }

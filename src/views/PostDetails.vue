@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3 mb-2">
     <b-row>
-      <b-col cols="9">
+      <b-col cols="12">
         <h5>{{ post.title }}</h5>
         <img
           :src="post.thumbnail_img"
@@ -10,18 +10,13 @@
         >
         <p>{{ post.description }}</p>
       </b-col>
-      <b-col cols="3">
-        <RightSidebar />
-      </b-col>
     </b-row>
   </div>
 </template>
 <script>
-import RightSidebar from '../components/RightSidebar.vue'
 import { BRow, BCol } from 'bootstrap-vue'
 export default {
   components: {
-    RightSidebar,
     BRow,
     BCol
   },
@@ -40,7 +35,6 @@ export default {
       this.$http.get(`http://127.0.0.1:8000/api/post/${this.$route.params.id}`)
         .then(function (response) {
           singlePost.post = response.data
-          console.log(response.data)
         })
         .catch(function (error) {
           console.log(error)

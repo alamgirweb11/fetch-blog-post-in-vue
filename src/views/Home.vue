@@ -18,7 +18,7 @@
     </b-row>
     <b-row>
       <b-col cols="9">
-        <b-row>
+        <b-row v-if="posts.length > 0">
           <b-col
             v-for="(post, index) in posts"
             :key="index"
@@ -47,6 +47,9 @@
               </b-button>
             </b-card>
           </b-col>
+        </b-row>
+        <b-row v-else>
+          <b class="text-danger text-center">No Data Found!</b>
         </b-row>
       </b-col>
       <b-col cols="3">
@@ -94,6 +97,7 @@ export default {
       },
       posts: [],
       categories: [],
+      manipulatePostData: [],
       categoryOptions: [
         { text: 'Filter Post', value: null },
         'Category-1',
@@ -113,6 +117,7 @@ export default {
       this.$http.get('http://127.0.0.1:8000/api/posts')
         .then(function (response) {
           fetchAllPosts.posts = response.data
+          fetchAllPosts.manipulatePostData = response.data
         })
         .catch(function (error) {
           console.log(error)
@@ -129,7 +134,7 @@ export default {
         })
     },
     categoryWisePost (categoryId) {
-      console.log(categoryId)
+      this.posts = this.manipulatePostData.filter(post => post.category_id === categoryId)
     }
   }
 }

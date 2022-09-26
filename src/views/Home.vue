@@ -8,7 +8,6 @@
           class="form-control"
           placeholder="Search..."
           required
-          @keyup="submitSearchData"
         />
       </b-form-group>
     </b-row>
@@ -16,7 +15,7 @@
       <b-col cols="9">
         <b-row v-if="posts.length > 0">
           <b-col
-            v-for="(post, index) in posts"
+            v-for="(post, index) in postData"
             :key="index"
             cols="4"
           >
@@ -93,6 +92,11 @@ export default {
       manipulatePostData: []
     }
   },
+  computed: {
+    postData () {
+      return this.posts.filter(post => post.title.toLowerCase().includes(this.searchInput.toLowerCase()))
+    }
+  },
   mounted () {
     this.allPosts()
     this.allCategories()
@@ -121,9 +125,6 @@ export default {
     },
     categoryWisePost (categoryId) {
       this.posts = this.manipulatePostData.filter(post => post.category_id === categoryId)
-    },
-    submitSearchData () {
-      this.posts = this.manipulatePostData.filter(post => post.title.toLowerCase().includes(this.searchInput.toLowerCase()))
     }
   }
 }
